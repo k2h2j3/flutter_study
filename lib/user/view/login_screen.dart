@@ -9,54 +9,59 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      //화면 밖으로 나가는 것을 방지하는 위젯
-      child: SafeArea(
-        top: true,
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            // stretch는 요소를 width끝까지 채우도록 만드는 것
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _Title(),
-              const SizedBox(height: 16.0),
-              _SubTitle(),
-              Image.asset(
-                'asset/img/misc/logo.png',
-                width: MediaQuery.of(context).size.width / 3 * 2,
-                height: 300,
-              ),
-              CustomTextFormField(
-                hintText: '이메일을 입력해주세요.',
-                onChanged: (String value) {},
-              ),
-              const SizedBox(height: 16.0,),
-              CustomTextFormField(
-                hintText: '비밀번호를 입력해주세요.',
-                onChanged: (String value) {},
-                obscureText: true,
-              ),
-              const SizedBox(height: 16.0,),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: PRIMARY_COLOR
+      // 스크롤 기능 위젯
+      child: SingleChildScrollView(
+        //스크롤하면 키보드가 사라지게 하는 기능
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        //화면 밖으로 나가는 것을 방지하는 위젯
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              // stretch는 요소를 width끝까지 채우도록 만드는 것
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _Title(),
+                const SizedBox(height: 16.0),
+                _SubTitle(),
+                Image.asset(
+                  'asset/img/misc/logo.png',
+                  width: MediaQuery.of(context).size.width / 3 * 2,
+                  height: 300,
                 ),
-                child: Text(
-                  '로그인',
+                CustomTextFormField(
+                  hintText: '이메일을 입력해주세요.',
+                  onChanged: (String value) {},
                 ),
-              ),
-              TextButton(
-                onPressed: () {},
-                style: TextButton.styleFrom(
-                  surfaceTintColor : Colors.black,
+                const SizedBox(height: 16.0,),
+                CustomTextFormField(
+                  hintText: '비밀번호를 입력해주세요.',
+                  onChanged: (String value) {},
+                  obscureText: true,
                 ),
-                child: Text(
-                  '회원가입',
+                const SizedBox(height: 16.0,),
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: PRIMARY_COLOR
+                  ),
+                  child: Text(
+                    '로그인',
+                  ),
                 ),
-              ),
-            ],
+                TextButton(
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                    surfaceTintColor : Colors.black,
+                  ),
+                  child: Text(
+                    '회원가입',
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
