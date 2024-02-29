@@ -4,7 +4,8 @@ import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/view/root_tab.dart';
 import 'package:actual/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
-
+// 로그인 유무에 따라 화면이 바뀌게 하는 기능(로그인이 되었을시 RootTab, 안되어있을경우 로그인 페이지)
+// 데이터에 따라 어떤 페이지로 이동하게 해줄지 정해주는 기능이라고 생각
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -14,6 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
+  //위젯이 처음 생성될때 가장 먼저 호출되는 메서드
   void initState() {
     super.initState();
 
