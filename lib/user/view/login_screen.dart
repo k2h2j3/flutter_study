@@ -73,7 +73,8 @@ class LoginScreen extends StatelessWidget {
                         ),
                     );
 
-                    print(resp.data);
+                    print(resp.data); // 토큰이 잘 받아졌는지 확인
+
                   },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR
@@ -83,7 +84,19 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+
+                    final refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcwOTE3NDg5OCwiZXhwIjoxNzA5MjYxMjk4fQ.sKrsvSbU5bxwT6_tZi-w79EGZoNWYE3Nnlgk5Z4R-4o';
+                    final resp = await dio.post('http://$ip/auth/token',
+                      options: Options(
+                        headers: {
+                          'authorization': 'Bearer $refreshToken',
+                        },
+                      ),
+                    );
+
+                    print(resp.data);
+                  },
                   style: TextButton.styleFrom(
                     surfaceTintColor : Colors.black,
                   ),
