@@ -3,6 +3,7 @@ import 'package:actual/common/const/data.dart';
 import 'package:actual/common/layout/default_layout.dart';
 import 'package:actual/common/view/root_tab.dart';
 import 'package:actual/user/view/login_screen.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 // 로그인 유무에 따라 화면이 바뀌게 하는 기능(로그인이 되었을시 RootTab, 안되어있을경우 로그인 페이지)
 // 데이터에 따라 어떤 페이지로 이동하게 해줄지 정해주는 기능이라고 생각
@@ -34,19 +35,30 @@ class _SplashScreenState extends State<SplashScreen> {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    if (refreshToken == null || accessToken == null) {
+    final dio = Dio();
+
+    try{
+      final resp = await dio.post(
+        'http://$ip/auth/token',
+        options: Options(
+          headers: {
+            'authorization': 'Bearer $refreshToken',
+          },
+        ),
+      );
+      // 정상이면 실행
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => RootTab(),
+        ),
+            (route) => false,
+      );
+    }catch(e){
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (_) => LoginScreen(),
           ),
-          (route) => false
-      );
-    }else{
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => RootTab(),
-          ),
-              (route) => false,
+              (route) => false
       );
     }
   }

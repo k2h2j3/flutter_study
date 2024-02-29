@@ -26,12 +26,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     final dio = Dio();
 
-    // localhost
-    final emulatorIp = '10.0.2.2:3000';
-    final simulatorIp = '127.0.0.1:3000';
-
-    // ios면 simulatorIp를, 아니면 emulatorIp를 사용
-    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
 
     return DefaultLayout(
       // 스크롤 기능 위젯
@@ -114,18 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    final refreshToken =
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RAY29kZWZhY3RvcnkuYWkiLCJzdWIiOiJmNTViMzJkMi00ZDY4LTRjMWUtYTNjYS1kYTlkN2QwZDkyZTUiLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTcwOTE3NDg5OCwiZXhwIjoxNzA5MjYxMjk4fQ.sKrsvSbU5bxwT6_tZi-w79EGZoNWYE3Nnlgk5Z4R-4o';
-                    final resp = await dio.post(
-                      'http://$ip/auth/token',
-                      options: Options(
-                        headers: {
-                          'authorization': 'Bearer $refreshToken',
-                        },
-                      ),
-                    );
 
-                    print(resp.data);
                   },
                   style: TextButton.styleFrom(
                     surfaceTintColor: Colors.black,
