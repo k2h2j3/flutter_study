@@ -27,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
     );
 
     return TextFormField(
+      //깜빡거리는 커서 색깔
       cursorColor: PRIMARY_COLOR,
       // 비밀번호 입력할 때,
       obscureText: obscureText,

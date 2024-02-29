@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:actual/common/component/custom_text_form_field.dart';
 import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/layout/default_layout.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -8,6 +12,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+
+    // localhost
+    final emulatorIp = '10.0.2.2:3000';
+    final simulatorIp = '127.0.0.1:3000';
+
+    // ios면 simulatorIp를, 아니면 emulatorIp를 사용
+    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
+
     return DefaultLayout(
       // 스크롤 기능 위젯
       child: SingleChildScrollView(
@@ -31,6 +44,7 @@ class LoginScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 3 * 2,
                   height: 300,
                 ),
+                const SizedBox(height: 16.0),
                 CustomTextFormField(
                   hintText: '이메일을 입력해주세요.',
                   onChanged: (String value) {},
@@ -43,7 +57,24 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16.0,),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // ID:비밀번호
+                    final rawString = 'test@codefactory.ai:testtest';
+
+                    //base64로 인코딩
+                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                    String token = stringToBase64.encode(rawString);
+
+                    final resp = await dio.post('http://$ip/auth/login',
+                        options: Options(
+                          headers: {
+                            'authorization': 'Basic $token',
+                          },
+                        ),
+                    );
+
+                    print(resp.data);
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: PRIMARY_COLOR
                   ),
@@ -74,7 +105,7 @@ class _Title extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('환영합니다',
+    return Text('환영합니다!',
         style: TextStyle(
           fontSize: 34,
           fontWeight: FontWeight.w500,
