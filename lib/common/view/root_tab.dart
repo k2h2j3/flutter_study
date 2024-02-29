@@ -1,5 +1,6 @@
 import 'package:actual/common/const/colors.dart';
 import 'package:actual/common/layout/default_layout.dart';
+import 'package:actual/restaurant/view/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
 class RootTab extends StatefulWidget {
@@ -11,6 +12,7 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with
 SingleTickerProviderStateMixin{
+  //컨트롤러에 값이 들어오기전에 null처리를 하지 않기 위해 late 선언
   late TabController controller;
   // bottomtab 인덱스
   int index = 0;
@@ -47,7 +49,7 @@ SingleTickerProviderStateMixin{
         physics: NeverScrollableScrollPhysics(),
         controller: controller,
         children: [
-          Center(child: Container(child: Text('홈'))),
+          RestaurantScreen(),
           Center(child: Container(child: Text('음식'))),
           Center(child: Container(child: Text('주문'))),
           Center(child: Container(child: Text('프로필'))),
