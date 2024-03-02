@@ -37,28 +37,27 @@ class _SplashScreenState extends State<SplashScreen> {
 
     final dio = Dio();
 
-    try{
-      final resp = await dio.post(
-        'http://$ip/auth/token',
+    try {
+      final resp = await dio.post('http://$ip/auth/token',
         options: Options(
           headers: {
             'authorization': 'Bearer $refreshToken',
           },
         ),
       );
-      // 정상이면 실행
+
+      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.data['accessToken']);
+
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => RootTab(),
-        ),
-            (route) => false,
+        ), (route) => false,
       );
-    }catch(e){
+    } catch(e) {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => LoginScreen(),
-          ),
-              (route) => false
+        MaterialPageRoute(
+          builder: (_) => LoginScreen(),
+        ), (route) => false,
       );
     }
   }
