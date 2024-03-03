@@ -11,12 +11,14 @@ class RestaurantScreen extends StatelessWidget {
 
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    final resp = await dio.get('http://$ip/restaurant');
-    options: Options(
-      headers: {
+    final resp = await dio.get('http://$ip/restaurant',
+        options: Options(
+        headers: {
         'authorization': 'Bearer $accessToken',
-      }
+        }
+      ),
     );
+
 
     return resp.data['data'];
   }
