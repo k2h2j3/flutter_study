@@ -1,6 +1,7 @@
 import 'package:actual/common/const/data.dart';
 import 'package:actual/restaurant/component/restaurant_card.dart';
 import 'package:actual/restaurant/model/restaurant_model.dart';
+import 'package:actual/restaurant/view/restaurant_detail_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -12,14 +13,12 @@ class RestaurantScreen extends StatelessWidget {
 
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
-    final resp = await dio.get('http://$ip/restaurant',
-      options: Options(
-          headers: {
-            'authorization': 'Bearer $accessToken',
-          }
-      ),
+    final resp = await dio.get(
+      'http://$ip/restaurant',
+      options: Options(headers: {
+        'authorization': 'Bearer $accessToken',
+      }),
     );
-
 
     return resp.data['data'];
   }
@@ -42,11 +41,20 @@ class RestaurantScreen extends StatelessWidget {
                   itemBuilder: (_, index) {
                     final item = snapshot.data![index];
                     final pItem = RestaurantModel.fromJson(
-                        json: item,
+                      json: item,
                     );
 
-                    return RestaurantCard.fromModel(
-                      model: pItem,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => RestaurantDetailScreen(),
+                          ),
+                        );
+                      },
+                      child: RestaurantCard.fromModel(
+                        model: pItem,
+                      ),
                     );
                   },
                   separatorBuilder: (_, index) {
@@ -54,8 +62,7 @@ class RestaurantScreen extends StatelessWidget {
                   },
                 );
               },
-            )
-        ),
+            )),
       ),
     );
   }
