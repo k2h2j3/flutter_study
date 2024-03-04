@@ -9,10 +9,7 @@ import 'package:flutter/material.dart';
 class RestaurantDetailScreen extends StatelessWidget {
   final String id;
 
-  const RestaurantDetailScreen({
-    required this.id,
-    Key? key
-  }) : super(key: key);
+  const RestaurantDetailScreen({required this.id, Key? key}) : super(key: key);
 
   Future<Map<String, dynamic>> getRestaurantDetail() async {
     final dio = Dio();
@@ -34,31 +31,32 @@ class RestaurantDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: '불타는 떡볶이',
-      child: FutureBuilder<Map<String, dynamic>>(
-        future: getRestaurantDetail(),
-        builder: (_, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-          if(!snapshot.hasData){
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+        title: '불타는 떡볶이',
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: getRestaurantDetail(),
+          builder: (_, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          final item = RestaurantDetailModel.fromJson(
-            json: snapshot.data!,
-          );
-          return CustomScrollView(
-            slivers: [
-              renderTop(
-                model: item,
-              ),
-              renderLabel(),
-              renderProducts(),
-            ],
-          );
-        },
-      )
-    );
+            final item = RestaurantDetailModel.fromJson(
+              json: snapshot.data!,
+            );
+            return CustomScrollView(
+              slivers: [
+                renderTop(
+                  model: item,
+                ),
+                renderLabel(),
+                renderProducts(
+                  products: item.products,
+                ),
+              ],
+            );
+          },
+        ));
   }
 
   SliverPadding renderLabel() {
@@ -76,26 +74,32 @@ class RestaurantDetailScreen extends StatelessWidget {
     );
   }
 
-  renderProducts() {
+  SliverPadding renderProducts({
+    required List<RestaurantProdcutModel> products,
+  }) {
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
+            final model = products[index];
+
             return Padding(
               padding: const EdgeInsets.only(top: 8.0),
-              child: ProductCard(),
+              child: ProductCard.fromModel(
+                model: model,
+              ),
             );
           },
-          childCount: 10,
+          childCount: products.length,
         ),
       ),
     );
   }
 
   SliverToBoxAdapter renderTop({
-  required RestaurantDetailModel model,
-}) {
+    required RestaurantDetailModel model,
+  }) {
     return SliverToBoxAdapter(
       child: RestaurantCard.fromModel(
         model: model,
