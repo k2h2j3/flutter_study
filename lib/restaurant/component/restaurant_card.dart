@@ -31,19 +31,19 @@ class RestaurantCard extends StatelessWidget {
   // 상세 내용
   final String? detail;
 
-  const RestaurantCard(
-      {required this.image,
-      required this.name,
-      required this.tags,
-      required this.ratingsCount,
-      required this.deliveryTime,
-      required this.deliveryFee,
-      required this.ratings,
-      this.isDetail = false,
-      this.detail,
-      Key? key})
-      : super(key: key);
+  const RestaurantCard({
+    required this.image,
+    required this.name,
+    required this.tags,
+    required this.ratingsCount,
+    required this.deliveryTime,
+    required this.deliveryFee,
+    required this.ratings,
+    this.isDetail = false,
+    this.detail,
+    Key? key}) : super(key: key);
 
+  // JsonSerializer로 라벨링한 모델을 model 객체로 불러와서 사용
   factory RestaurantCard.fromModel({
     required RestaurantModel model,
     bool isDetail = false,

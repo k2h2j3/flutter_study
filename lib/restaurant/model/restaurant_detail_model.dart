@@ -24,6 +24,8 @@ class RestaurantDetailModel extends RestaurantModel {
     required this.products,
   });
 
+  // 1. Map<String, dynamic> 형식의 json 데이터를 매개변수
+  // 2. _$RestaurantDetailModelFromJson 함수를 호출하여 RestaurantDetailModel 객체를 반환
   factory RestaurantDetailModel.fromJson(Map<String, dynamic>json)
   => _$RestaurantDetailModelFromJson(json);
 }
